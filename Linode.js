@@ -25,7 +25,7 @@ module.exports = class Linode
 			json: true,
 			method: type
 		};
-		console.log (options);
+		
 		return Request (options);
 	}
 }
