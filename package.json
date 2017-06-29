@@ -1,0 +1,23 @@
+{
+  "name": "linode-api-node",
+  "version": "1.0.0",
+  "description": "Linode API",
+  "main": "Linode.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobinJ1995/linode-api-node.git"
+  },
+  "author": "Robin Jacobs",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/RobinJ1995/linode-api-node/issues"
+  },
+  "homepage": "https://github.com/RobinJ1995/linode-api-node#readme",
+  "dependencies": {
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  }
+}
