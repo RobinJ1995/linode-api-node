@@ -1,6 +1,6 @@
 {
   "name": "linode-api-node",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Linode API",
   "main": "Linode.js",
   "scripts": {
