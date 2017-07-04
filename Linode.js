@@ -80,7 +80,7 @@ let handler = {
 			let endpointPartCount = endpointParts.length;
 			while (paramIndexes.length > 0)
 				endpointParts.splice (paramIndexes.shift (), 0, params.shift ());
-			console.log (endpointParts);
+			
 			return target.request (method, endpointParts.join ('/'), data);
 		}
 	}
