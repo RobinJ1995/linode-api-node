@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/RobinJ1995/linode-api-node#readme",
   "dependencies": {
+    "deepmerge": "^1.4.4",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
   }

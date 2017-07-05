@@ -1,4 +1,5 @@
 let Request = require ('request-promise');
+let DeepMerge = require ('deepmerge');
 
 module.exports = class Linode
 {
@@ -10,9 +11,12 @@ module.exports = class Linode
 			this.apiKey = apiKey;
 	}
 	
-	request (type, endpoint, data)
+	request (type, endpoint, data, page)
 	{
-		let uri = 'https://api.linode.com/v4/' + endpoint;
+		if (page === undefined)
+			page = 1;
+		
+		let uri = 'https://api.linode.com/v4/' + endpoint + '?page=' + page;
 		//if (type === 'GET')
 		//	uri += '?' + Object.keys (data).map ((v) => v + '=' + data[v]).join ('&');
 			
@@ -81,7 +85,23 @@ let handler = {
 			while (paramIndexes.length > 0)
 				endpointParts.splice (paramIndexes.shift (), 0, params.shift ());
 			
-			return target.request (method, endpointParts.join ('/'), data);
+			return target.request (method, endpointParts.join ('/'), data)
+				.then ((response) => {
+					if (response && response.page && response.total_pages && response.page < response.total_pages)
+					{
+						let promises = [ Promise.resolve (response) ];
+						
+						for (let i = response.page; i <= response.total_pages; i++)
+							promises.push (target.request (method, endpointParts.join ('/'), data, i));
+						
+						return Promise.all (promises)
+							.then ((responses) => {
+								return DeepMerge.all (responses, { arrayMerge: (arr1, arr2) => { return arr1.concat (arr2); }});
+							});
+					}
+					
+					return response;
+				});
 		}
 	}
 }
