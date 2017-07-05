@@ -91,7 +91,7 @@ let handler = {
 					{
 						let promises = [ Promise.resolve (response) ];
 						
-						for (let i = response.page; i <= response.total_pages; i++)
+						for (let i = response.page + 1; i <= response.total_pages; i++)
 							promises.push (target.request (method, endpointParts.join ('/'), data, i));
 						
 						return Promise.all (promises)
