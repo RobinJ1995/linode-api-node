@@ -1,3 +1,4 @@
+let Promise = require ('bluebird');
 let Request = require ('request-promise');
 let DeepMerge = require ('deepmerge');
 
@@ -5,6 +6,8 @@ module.exports = class Linode
 {
 	constructor (apiKey, internal)
 	{
+		this.requestDelay = 0; // Increase this if you run into rate limiting issues //
+		
 		if (! internal)
 			return new Proxy (new Linode (apiKey, true), handler);
 		else
@@ -30,7 +33,9 @@ module.exports = class Linode
 			method: type
 		};
 		
-		return Request (options);
+		return Promise.delay (this.requestDelay).then (() => {
+			return Request (options);
+		});
 	}
 }
 
