@@ -94,15 +94,22 @@ let handler = {
 				.then ((response) => {
 					if (response && response.page && response.total_pages && response.page < response.total_pages)
 					{
-						let promises = [ Promise.resolve (response) ];
+						let chain = Promise.resolve (true);
+						let pages = [ response ];
 						
 						for (let i = response.page + 1; i <= response.total_pages; i++)
-							promises.push (target.request (method, endpointParts.join ('/'), data, i));
-						
-						return Promise.all (promises)
-							.then ((responses) => {
-								return DeepMerge.all (responses, { arrayMerge: (arr1, arr2) => { return arr1.concat (arr2); }});
+						{
+							chain = chain.then (() => {
+								return target.request (method, endpointParts.join ('/'), data, i);
+							})
+							.then ((pageResponse) => {
+								return pages.push (pageResponse);
 							});
+						}
+						
+						return chain.then (() => {
+							return DeepMerge.all (pages, { arrayMerge: (arr1, arr2) => { return arr1.concat (arr2); }});
+						});
 					}
 					
 					return response;
