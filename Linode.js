@@ -27,7 +27,7 @@ module.exports = class Linode
 			uri: uri,
 			body: data,
 			headers: {
-				'Authorization': 'token ' + this.apiKey
+				'Authorization': 'Bearer ' + this.apiKey
 			},
 			json: true,
 			method: type
