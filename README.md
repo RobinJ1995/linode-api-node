@@ -1,6 +1,6 @@
 # Linode API
 
-Node.js Linode API based on their (currently experimental) v4 API.
+Node.js Linode API based on their v4 API.
 
 Methods are dynamic based on API endpoints specified in the documentation over here; https://developers.linode.com/api/v4
 
