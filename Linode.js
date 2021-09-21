@@ -92,12 +92,12 @@ let handler = {
 			
 			return target.request (method, endpointParts.join ('/'), data)
 				.then ((response) => {
-					if (response && response.page && response.total_pages && response.page < response.total_pages)
+					if (response && response.page && response.pages && response.page < response.pages)
 					{
 						let chain = Promise.resolve (true);
 						let pages = [ response ];
 						
-						for (let i = response.page + 1; i <= response.total_pages; i++)
+						for (let i = response.page + 1; i <= response.pages; i++)
 						{
 							chain = chain.then (() => {
 								return target.request (method, endpointParts.join ('/'), data, i);
